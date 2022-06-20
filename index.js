@@ -1,4 +1,5 @@
 const video = document.querySelector("#videoElm");
+const show = document.querySelector(".show")
  
 const loadFaceApi = async () => {
     await faceapi.nets.faceLandmark68Net.loadFromUri('./models')
@@ -24,15 +25,16 @@ video.addEventListener('playing', () => {
    }
    setInterval(async () => {
      const detects = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions())
-     .widthFaceLanmarks()
-     .widthFaceExpressions() 
+     .withFaceLandmarks()
+     .withFaceExpressions() 
 
      console.log("detects", detects);
      const resizedDetects = faceapi.resizeResults(detects, displaySize)
      canvas.getContext('2d').clearRect(0, 0, displaySize.width, displaySize.height)
      faceapi.draw.drawDetections(canvas, resizedDetects)
-     faceapi.draw.drawFaceLanmarks(canvas, resizedDetects)
-     faceapi.draw.drawExpressions(canvas, resizedDetects)
+     faceapi.draw.drawFaceLandmarks(canvas, resizedDetects)
+     faceapi.draw.drawFaceExpressions(canvas, resizedDetects)
+     
    }, 300)
 })
 
